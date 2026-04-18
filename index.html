@@ -163,16 +163,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- 8. LÓGICA DE CONVERSIÓN -->
     <script>
         function handleWhatsAppConversion() {
-            // URL exacta solicitada
             const waUrl = "https://wa.me/5492235197137?text=Hola%20Dra.%20Izi,%20vengo%20de%20su%20landing%20y%20necesito%20asesoramiento%20sobre%20un%20divorcio.";
             
-            // Tracking Console Log para Google Ads
-            console.log("Evento CRO: Clic en WhatsApp - Conversión");
+            // 1. Le avisamos a Google Tag Manager que hubo un clic válido
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'clic_whatsapp_ok'
+            });
             
-            // Simulación de delay para disparo de scripts de tracking
+            // 2. Redirección profesional
             setTimeout(() => {
                 window.open(waUrl, '_blank');
-            }, 100);
+            }, 150);
         }
     </script>
 </body>
