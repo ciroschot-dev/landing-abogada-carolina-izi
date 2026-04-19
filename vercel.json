@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/divorcios",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
