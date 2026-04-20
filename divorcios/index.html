@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head> 
-    <!-- 1. OPTIMIZACIÓN DE FUENTES (Zero Render-Blocking) -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 1. PRELOADS CRÍTICOS (Acelera LCP) -->
+    <link rel="preload" as="image" href="../assets/nueva-foto-abogada.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="../assets/logo-lci.webp" fetchpriority="high">
+    
+    <!-- 2. OPTIMIZACIÓN DE CONEXIONES EXTERNAS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <!-- Pre-conexión para que el clic en WhatsApp sea instantáneo -->
+    <link rel="preconnect" href="https://wa.me">
     
-    <!-- Cargamos la fuente de forma asíncrona para no bloquear el FCP -->
+    <!-- 3. CARGA DE FUENTES ASÍNCRONA -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700;800&display=swap">
+    <style>
+        /* Prevents layout shift from fonts and ensures text is visible immediately */
+        @font-face { font-family: 'Inter'; font-display: swap; }
+        @font-face { font-family: 'Playfair Display'; font-display: swap; }
+    </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700;800&display=swap" media="print" onload="this.media='all'">
     
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700;800&display=swap">
     </noscript>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <!-- SEO METADATA (Preserved 100/100) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.carolinaizi.com.ar/">
@@ -34,14 +48,14 @@
     <!-- FAVICON -->
     <link rel="icon" type="image/webp" href="../assets/logo-lci.webp">
     
-    <!-- Tailwind CSS con defer -->
+    <!-- Tailwind CSS con defer (Preservado para no romper estilos) -->
     <script src="https://cdn.tailwindcss.com" defer></script>
     
     <style>
         :root {
             --gold: #D4AF37;
             --wa-brand: #25D366;
-            --wa-text: #000000; /* Negro para contraste WCAG AA/AAA sobre verde */
+            --wa-text: #000000;
         }
         body { font-family: 'Inter', sans-serif; min-height: 100vh; }
         .font-serif { font-family: 'Playfair Display', serif; }
@@ -52,6 +66,7 @@
         
         .whatsapp-pulse {
             animation: pulse-green 2s infinite;
+            will-change: transform; /* Optimización GPU */
         }
         
         @keyframes pulse-green {
@@ -71,7 +86,6 @@
     <header class="fixed top-0 w-full bg-black/90 backdrop-blur-sm z-50 border-b border-[#D4AF37]/30 h-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
             <div class="flex items-center">
-                <!-- CLS FIX: Ratio real del logo -->
                 <div class="h-12 aspect-[815/755] flex-shrink-0 bg-zinc-900/50 rounded overflow-hidden">
                     <img src="../assets/logo-lci.webp" alt="LCI Logo" width="815" height="755" class="w-full h-full object-contain">
                 </div>
@@ -82,18 +96,17 @@
                     <h2 class="font-serif text-lg sm:text-xl text-white tracking-[0.2em] leading-none uppercase">
                         Carolina Izi
                     </h2>
-                    <span class="text-[9px] sm:text-[10px] text-zinc-500 tracking-[0.3em] mt-1.5 uppercase font-medium">
+                    <span class="text-[9px] sm:text-[10px] text-zinc-300 tracking-[0.3em] mt-1.5 uppercase font-medium">
                         Abogada · Especialista
                     </span>
                 </div>
             </div>
 
-            <!-- Accessibility: text-black for 4.5:1+ contrast on #25D366 -->
             <a href="https://wa.me/5492235197137?text=Hola%20Dra.%20Izi,%20vengo%20de%20su%20landing%20y%20necesito%20asesoramiento%20sobre%20un%20divorcio." 
                onclick="handleWhatsAppConversion(event)" 
                target="_blank" 
                rel="noopener"
-               aria-label="Contactar a la Dra. Carolina Izi por WhatsApp"
+               aria-label="CONSULTA WHATSAPP - Contactar a la Dra. Carolina Izi"
                class="hidden sm:flex bg-[#25D366] text-black font-bold text-xs items-center gap-2 hover:bg-[#1ebd5b] transition-all px-6 py-2.5 rounded-full shadow-lg">
                 <span>CONSULTA WHATSAPP</span>
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -102,7 +115,6 @@
     </header>
 
     <main class="pt-20"> 
-        <!-- HERO SECTION: min-h-[700px] para evitar saltos de layout (CLS) -->
         <section class="bg-zinc-900 pt-6 pb-16 lg:pt-8 lg:pb-28 overflow-hidden text-center lg:text-left min-h-[700px] flex items-center">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center w-full">
 
@@ -122,7 +134,7 @@
                        onclick="handleWhatsAppConversion(event)" 
                        target="_blank" 
                        rel="noopener"
-                       aria-label="Solicitar evaluación de divorcio por WhatsApp"
+                       aria-label="SOLICITAR EVALUACIÓN AHORA - Solicitar evaluación de divorcio por WhatsApp"
                        class="whatsapp-pulse w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#25D366] text-black px-10 py-5 rounded-md text-xl font-black shadow-2xl hover:bg-[#1ebd5b] transition-all transform hover:scale-105 active:scale-95">
                         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                         SOLICITAR EVALUACIÓN AHORA
@@ -131,20 +143,19 @@
 
                 <div class="relative order-2 w-full max-w-sm mx-auto lg:max-w-none">
                     <div class="absolute -inset-2 border-2 border-[#D4AF37] rounded-lg opacity-20"></div>
-                    <!-- CLS FIX: Reservamos espacio exacto para la foto hero (960x1280 -> aspect-3/4) -->
                     <div class="aspect-[3/4] w-full bg-zinc-800 rounded-lg overflow-hidden shadow-2xl">
                         <img src="../assets/nueva-foto-abogada.webp" 
                              alt="Dra. Carolina Izi - Especialista en Divorcios" 
                              width="960" height="1280" 
                              fetchpriority="high" 
                              loading="eager"
+                             decoding="async"
                              class="w-full h-full object-cover object-top">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PUNTOS DE DOLOR -->
         <section class="bg-black py-20 lg:py-32">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="font-serif text-3xl sm:text-4xl text-white mb-4 italic">Nuestras Áreas de Intervención</h2>
@@ -178,7 +189,6 @@
             </div>
         </section>
 
-        <!-- CTA FINAL -->
         <section class="bg-zinc-900 py-20 text-center">
             <div class="max-w-3xl mx-auto px-4">
                 <h2 class="font-serif text-3xl sm:text-4xl text-white mb-8">No deje su tranquilidad al azar.</h2>
@@ -186,7 +196,7 @@
                    onclick="handleWhatsAppConversion(event)" 
                    target="_blank" 
                    rel="noopener"
-                   aria-label="Contactar a la Dra. Carolina Izi por WhatsApp para agendar una consulta privada"
+                   aria-label="AGENDAR CONSULTA PRIVADA - Contactar a la Dra. Carolina Izi por WhatsApp"
                    class="inline-flex items-center gap-4 bg-[#25D366] text-black px-12 py-7 rounded-md text-2xl font-black shadow-2xl hover:bg-[#1ebd5b] transition-all transform hover:scale-105">
                     AGENDAR CONSULTA PRIVADA
                 </a>
@@ -194,24 +204,22 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-black py-16 border-t border-zinc-900 text-center">
         <div class="flex flex-col items-center mb-8">
             <div class="flex items-center justify-center opacity-80">
                 <div class="h-8 aspect-[815/755]">
-                    <img src="../assets/logo-lci.webp" alt="LCI Logo Footer" width="815" height="755" class="h-full w-auto object-contain">
+                    <img src="../assets/logo-lci.webp" alt="LCI Logo Footer" width="815" height="755" loading="lazy" decoding="async" class="h-full w-auto object-contain">
                 </div>
                 <div class="h-6 border-l border-[#D4AF37] mx-3 opacity-40"></div>
                 <div class="flex flex-col text-left">
                     <span class="font-serif text-sm text-white tracking-[0.2em] uppercase">Carolina Izi</span>
-                    <span class="text-[8px] text-zinc-500 tracking-[0.3em] uppercase">Abogada · Especialista</span>
+                    <span class="text-[8px] text-zinc-300 tracking-[0.3em] uppercase">Abogada · Especialista</span>
                 </div>
             </div>
         </div>
-        <p class="text-zinc-600 text-xs tracking-wider">© 2026 Mar del Plata, Argentina. Absoluta Confidencialidad Legal.</p>
+        <p class="text-zinc-400 text-xs tracking-wider">© 2026 Mar del Plata, Argentina. Absoluta Confidencialidad Legal.</p>
     </footer>
 
-    <!-- BOTÓN FLOTANTE WHATSAPP -->
     <a href="https://wa.me/5492235197137?text=Hola%20Dra.%20Izi,%20vengo%20de%20su%20landing%20y%20necesito%20asesoramiento%20sobre%20un%20divorcio." 
        onclick="handleWhatsAppConversion(event)" 
        target="_blank" 
@@ -221,9 +229,24 @@
         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </a>
 
-    <!-- SCRIPTS CLEANUP: Defer y al final del body -->
-    <script defer src="https://www.googletagmanager.com/gtm.js?id=GTM-5VRVCXH9"></script>
+    <!-- SCRIPTS OPTIMIZADOS -->
     <script>
+        // Carga GTM solo cuando el navegador está libre (Idle)
+        window.addEventListener('load', function() {
+            const loadGTM = function() {
+                var gtm = document.createElement('script');
+                gtm.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5VRVCXH9';
+                gtm.defer = true;
+                document.head.appendChild(gtm);
+            };
+            
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => setTimeout(loadGTM, 500));
+            } else {
+                setTimeout(loadGTM, 1500);
+            }
+        });
+
         function handleWhatsAppConversion(event) {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
